@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZGWC102_SDORDER_SRV" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="Subscription" sap:semantics="subscriptions" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Sub. ID" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+                <Property Name="user" Type="Edm.String" MaxLength="12" m:FC_TargetPath="SyndicationAuthorName" m:FC_KeepInContent="false" sap:label="User Name" sap:creatable="false" sap:filterable="false"/>
+                <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp" sap:creatable="false" sap:filterable="false"/>
+                <Property Name="title" Type="Edm.String" MaxLength="255" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Title" sap:filterable="false"/>
+                <Property Name="deliveryAddress" Type="Edm.String" sap:label="Delivery Address" sap:filterable="false"/>
+                <Property Name="persistNotifications" Type="Edm.Boolean" sap:label="Persist Notification" sap:filterable="false"/>
+                <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection" sap:filterable="false"/>
+                <Property Name="filter" Type="Edm.String" sap:label="Filter" sap:filterable="false"/>
+                <Property Name="select" Type="Edm.String" MaxLength="255" sap:label="Select" sap:filterable="false"/>
+                <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+            </EntityType>
+            <EntityType Name="Notification" sap:semantics="notifications" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Notification ID"/>
+                <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection"/>
+                <Property Name="title" Type="Edm.String" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Notif. Text"/>
+                <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp"/>
+                <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+                <Property Name="entriesOfInterest" Type="Edm.Int32" sap:label="No. of Entries"/>
+                <Property Name="recipient" Type="Edm.String" MaxLength="112" sap:label="Recipient" sap:creatable="false" sap:updatable="false"/>
+            </EntityType>
+            <EntityType Name="SO_ORDER" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="VbelnSo"/>
+                    <PropertyRef Name="Cusno"/>
+                    <PropertyRef Name="Partner"/>
+                </Key>
+                <Property Name="VbelnSo" Type="Edm.String" Nullable="false" MaxLength="13" sap:unicode="false" sap:label="판매오더 번호" sap:updatable="false"/>
+                <Property Name="Cusno" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="고객 번호" sap:updatable="false"/>
+                <Property Name="Partner" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="비즈니스 파트너" sap:updatable="false"/>
+                <Property Name="Ortype" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="판매오더 유형"/>
+                <Property Name="Menge" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="총 주문수량"/>
+                <Property Name="Audat" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="주문 일자"/>
+                <Property Name="Netwr" Type="Edm.Decimal" Precision="31" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="총 판매가"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:semantics="currency-code"/>
+                <NavigationProperty Name="SO_ORDER_ITEMSet" Relationship="ZGWC102_SDORDER_SRV.SO_ORDER_LIST" FromRole="FromRole_SO_ORDER_LIST" ToRole="ToRole_SO_ORDER_LIST"/>
+            </EntityType>
+            <EntityType Name="SO_ORDER_ITEM" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Matnr"/>
+                    <PropertyRef Name="VbelnSo"/>
+                    <PropertyRef Name="Partner"/>
+                    <PropertyRef Name="Cusno"/>
+                </Key>
+                <Property Name="Matnr" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="자재번호" sap:updatable="false"/>
+                <Property Name="VbelnSo" Type="Edm.String" Nullable="false" MaxLength="13" sap:unicode="false" sap:label="판매오더 번호" sap:updatable="false"/>
+                <Property Name="Partner" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="비즈니스 파트너" sap:updatable="false"/>
+                <Property Name="Cusno" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="고객 번호" sap:updatable="false"/>
+                <Property Name="Pequan" Type="Edm.Decimal" Precision="13" Scale="0" sap:unicode="false" sap:unit="Meins" sap:label="수량"/>
+                <Property Name="Kwmeng" Type="Edm.Decimal" Precision="30" Scale="0" sap:unicode="false" sap:unit="Meins" sap:label="실 판매량"/>
+                <Property Name="Meins" Type="Edm.String" MaxLength="3" sap:unicode="false" sap:label="Base Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="Stprs" Type="Edm.Decimal" Precision="11" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="제품 원가"/>
+                <Property Name="Scost" Type="Edm.Decimal" Precision="17" Scale="4" sap:unicode="false" sap:unit="Waers" sap:label="판매가"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:semantics="currency-code"/>
+                <Property Name="Edatu" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="출고 요청일"/>
+                <NavigationProperty Name="SO_ORDER" Relationship="ZGWC102_SDORDER_SRV.SO_ORDER_LIST" FromRole="ToRole_SO_ORDER_LIST" ToRole="FromRole_SO_ORDER_LIST"/>
+            </EntityType>
+            <Association Name="SO_ORDER_LIST" sap:content-version="1">
+                <End Type="ZGWC102_SDORDER_SRV.SO_ORDER" Multiplicity="1" Role="FromRole_SO_ORDER_LIST"/>
+                <End Type="ZGWC102_SDORDER_SRV.SO_ORDER_ITEM" Multiplicity="*" Role="ToRole_SO_ORDER_LIST"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_SO_ORDER_LIST">
+                        <PropertyRef Name="Partner"/>
+                        <PropertyRef Name="Cusno"/>
+                        <PropertyRef Name="VbelnSo"/>
+                    </Principal>
+                    <Dependent Role="ToRole_SO_ORDER_LIST">
+                        <PropertyRef Name="Partner"/>
+                        <PropertyRef Name="Cusno"/>
+                        <PropertyRef Name="VbelnSo"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZGWC102_SDORDER_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SubscriptionCollection" EntityType="ZGWC102_SDORDER_SRV.Subscription" sap:content-version="1"/>
+                <EntitySet Name="NotificationCollection" EntityType="ZGWC102_SDORDER_SRV.Notification" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="SO_ORDERSet" EntityType="ZGWC102_SDORDER_SRV.SO_ORDER" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="SO_ORDER_ITEMSet" EntityType="ZGWC102_SDORDER_SRV.SO_ORDER_ITEM" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <AssociationSet Name="SO_ORDER_LISTSet" Association="ZGWC102_SDORDER_SRV.SO_ORDER_LIST" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="SO_ORDERSet" Role="FromRole_SO_ORDER_LIST"/>
+                    <End EntitySet="SO_ORDER_ITEMSet" Role="ToRole_SO_ORDER_LIST"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <atom:link rel="self" href="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWC102_SDORDER_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://bgissap1.bgissap.co.kr:8000/sap/opu/odata/sap/ZGWC102_SDORDER_SRV/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

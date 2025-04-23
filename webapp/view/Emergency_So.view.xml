@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="emergencyso.emergencyso.controller.Emergency_So"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    />
+</mvc:View>
