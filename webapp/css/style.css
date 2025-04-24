@@ -1,1 +1,15 @@
 /* Enter your custom styles here */
+.create_but{
+    margin-top: 30px;
+}
+
+.header_text{
+    font-style: italic;
+    font-weight: bold;
+}
+
+.content_margin{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 0.5px solid rgb(169, 168, 168);
+}

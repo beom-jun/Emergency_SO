@@ -12,16 +12,21 @@
                     enableScrolling="false"
                     class="sapUiContentPadding">  
         <Panel >
-            
-             <!--       긴급 판매오더 생성 입력란       -->
-            <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start">
+            <!--       긴급 판매오더 생성 입력란       -->
+            <Panel class='header_text' headerText="긴급 판매오더 생성"></Panel> 
+
+            <HBox justifyContent="End" class='create_but'>
+                <Button text="긴급 판매오더 생성" icon="sap-icon://add-document" press="onCreate"> </Button>
+            </HBox>
+
+            <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start" id="1">
                 <l:VerticalLayout class="sapUiContentPadding"
 		                          width="300px">
                 
                     <l:content>
-                        <Label text="자재번호" labelFor="inputValueHelpCustomIcon"/>
+                        <Label text="dd" labelFor="inputValueHelpCustomIcon"/>
                         
-                        <Input  id="inputValueHelpCustomIcon1"
+                        <Input  id="Matnr"
                                 class="sapUiSmallMarginBottom"
                                 type="Text"
                                 placeholder="Enter product"
@@ -38,7 +43,7 @@
                 
                     <Label text="주문 수량" labelFor="inputNumber" />
 
-                    <Input  id="inputNumber"
+                    <Input  id="Pequan"
                             type="Number"
                             placeholder="Enter a number"
                             class="sapUiSmallMarginBottom" />
@@ -49,9 +54,29 @@
 		                          width="300px">
                 
                     <l:content>
+                        <Label text="판매오더 유형" labelFor="inputValueHelpCustomIcon"/>
+                        
+                        <Input  id="Ortype"
+                                class="sapUiSmallMarginBottom"
+                                type="Text"
+                                placeholder="Enter product"
+                                showValueHelp="true"
+                                valueHelpIconSrc="sap-icon://value-help"
+                                valueHelpRequest="handleValueHelp"/>    
+                    
+                    </l:content>
+                
+                </l:VerticalLayout>
+            </FlexBox>    
+
+            <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start" id="flexBox2">
+                <l:VerticalLayout class="sapUiContentPadding"
+		                          width="300px">
+                
+                    <l:content>
                         <Label text="요청 BP번호" labelFor="inputValueHelpCustomIcon"/>
                         
-                        <Input  id="inputValueHelpCustomIcon3"
+                        <Input  id="Partner"
                                 class="sapUiSmallMarginBottom"
                                 type="Text"
                                 placeholder="Enter product"
@@ -71,10 +96,12 @@
 
                    <Label text="요청 일자"/>
 
-                    <DatePicker id="DP8"
-                                placeholder="Enter Date"
+                    <DatePicker id="Audat"
                                 change="handleChange"
                                 class="sapUiSmallMarginBottom"
+                                placeholder="YYYY-MM-DD"
+                                displayFormat="yyyy-MM-dd"
+                                valueFormat="yyyy-MM-dd"
                                 showFooter="true"/>
 
                     </Panel>
@@ -82,13 +109,15 @@
                 </l:VerticalLayout>
             </FlexBox>
 
+            <HBox class='content_margin'></HBox>
+
             <!--        Header Table 조회란         -->
 
             <VBox class="sapUiLargeMarginTop">
-                <Panel headerText="헤더 테이블"></Panel>
+                <Panel class='header_text' headerText="판매오더 조회"></Panel>
 
-                <t:Table id="DocuTable1"
-                         rows="{/cart_infoSet}"
+                <t:Table id="DocuTable"
+                         rows="{/SO_ORDERSet}"
                          selectionMode="MultiToggle"
                          paste="onPaste"
                          ariaLabelledBy="title"
@@ -98,70 +127,56 @@
                 
                     <t:extension>
                         <OverflowToolbar>
+                            <Input id="VbelnSo" placeholder="판매오더번호" width="13rem" />
                             <Button text="Search" icon="sap-icon://search" press="onSearch" />
-                            <Input id="Remark1" placeholder="판매오더번호" width="12rem" />
-
                         <ToolbarSpacer/>  
 
-                            <Button class='sap.m.FlexAlignContent.End' text="주문 상세내역 조회" icon="sap-icon://approvals" press="onSearch"></Button>
+                            <Button class='sap.m.FlexAlignContent.End' text="주문 상세내역 조회" 
+                                    icon="sap-icon://approvals" press="onItem"></Button>
                         </OverflowToolbar>
                     </t:extension>
 
                     <t:columns>
                     
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Ryear/@sap:label}" />
+                        <t:Column width="12rem">
+                            <Label text="{/#SO_ORDERSet/VbelnSo/@sap:label}" />
                             <t:template>
-                                <Text text="{Ryear}" wrapping="false" />
+                                <Text text="{VbelnSo}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Rbukrs/@sap:label}" />
+                        <t:Column width="12.5rem">
+                            <Label text="{/#SO_ORDERSet/Partner/@sap:label}" />
                             <t:template>
-                                <Text text="{Rbukrs}" wrapping="false" />
+                                <Text text="{Partner}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Belnr/@sap:label}" />
+                        <t:Column width="12.5rem">
+                            <Label text="{/#SO_ORDERSet/Ortype/@sap:label}" />
                             <t:template>
-                                <Text text="{Belnr}" wrapping="false" />
+                                <Text text="{Ortype}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Racct/@sap:label}" />
+                        <t:Column width="12.5rem">
+                            <Label text="{/#SO_ORDERSet/Menge/@sap:label}" />
                             <t:template>
-                                <Text text="{Racct}" wrapping="false" />
+                                <Text text="{Menge}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Remark/@sap:label}" />
+                        <t:Column width="12.5rem">
+                            <Label text="{/#SO_ORDERSet/Audat/@sap:label}" />
                             <t:template>
-                                <Text text="{Remark}" wrapping="false" />
+                                <Text text="{Audat}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Hsl/@sap:label}" />
+                        <t:Column width="12.5rem">
+                            <Label text="{/#SO_ORDERSet/Netwr/@sap:label}" />
                             <t:template>
-                                <Text text="{Hsl}" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/Rtcur/@sap:label}" />
-                            <t:template>
-                                <Text text="{Rtcur}" wrapping="false" />
-                            </t:template>
-                        </t:Column>
-
-                        <t:Column width="11rem">
-                            <Label text="{/#cart_infoSet/PostYn/@sap:label}" />
-                            <t:template>
-                                <Text text="{PostYn}" wrapping="false" />
+                                <Text text="{Netwr}" wrapping="false" />
                             </t:template>
                         </t:Column>
                     

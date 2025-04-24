@@ -90,17 +90,30 @@
       },
       "routes": [
         {
-          "name": "RouteEmergency_So",
+          "name": "RouteHeaderView",
           "pattern": ":?query:",
           "target": [
             "TargetEmergency_So"
+          ]
+        },
+        {
+          "name": "RouteitemSo",
+          "pattern": "Item",
+          "target": [
+            "TargetitemSo"
           ]
         }
       ],
       "targets": {
         "TargetEmergency_So": {
           "id": "Emergency_So",
-          "name": "Emergency_So"
+          "name": "Emergency_So",
+          "transition" : "fade"
+        },
+        "TargetitemSo": {
+          "id": "itemSo",
+          "name": "itemSo",
+          "transition" : "fade"
         }
       }
     },

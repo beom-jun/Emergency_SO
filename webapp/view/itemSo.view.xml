@@ -1,0 +1,90 @@
+<mvc:View controllerName="emergencyso.emergencyso.controller.Item_So"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:t="sap.ui.table"
+        xmlns:u="sap.ui.unified"
+        xmlns:c="sap.ui.core"
+        xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:l="sap.ui.layout">
+
+
+    <Page id="page2" title="{i18n>title}"
+                    showHeader="false"
+                    enableScrolling="false"
+                    class="sapUiContentPadding"> 
+
+        <!--        Item Table 조회란         -->
+            <Button text="이전 페이지" press="onHeader"></Button>
+            <Panel>
+                <VBox class="sapUiLargeMarginTop">
+                    <Panel class='header_text' headerText="판매오더 상세 조회"></Panel>
+                
+                    <t:Table id="DocuTable2"
+                            rows="{/SO_ORDER_ITEMSet}"
+                            selectionMode="MultiToggle"
+                            paste="onPaste"
+                            ariaLabelledBy="title"
+                            visibleRowCount="8"
+                            width="100%">
+                    
+                        <t:extension>
+                            <OverflowToolbar >
+                                <Input id="VbelnSo1" placeholder="판매오더 번호" width="12rem" />
+                                <Button text="Search" icon="sap-icon://search" press="onSearch" />
+                            </OverflowToolbar>
+                        </t:extension>
+
+                        <t:columns>
+                        
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/VbelnSo/@sap:label}"/>
+                                <t:template>
+                                    <Text text="{VbelnSo}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Partner/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Partner}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Matnr/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Matnr}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Pequan/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Pequan}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Stprs/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Stprs}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Waers/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Waers}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                        
+                        </t:columns>
+                    
+                    </t:Table>
+                
+                </VBox>            
+            </Panel>
+    </Page>                
+
+</mvc:View>        
