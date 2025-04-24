@@ -1,0 +1,104 @@
+<mvc:View controllerName="emergencyso.emergencyso.controller.Item_So"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:t="sap.ui.table"
+        xmlns:u="sap.ui.unified"
+        xmlns:c="sap.ui.core"
+        xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:l="sap.ui.layout">
+
+
+    <Page id="page" title="{i18n>title}"
+                    showHeader="false"
+                    enableScrolling="false"
+                    class="sapUiContentPadding"> 
+
+        <!--        Item Table 조회란         -->
+        
+            <Panel>
+                <VBox class="sapUiLargeMarginTop">
+                    <Panel headerText="아이템 테이블"></Panel>
+                
+                    <t:Table id="DocuTable"
+                            rows="{/cart_infoSet}"
+                            selectionMode="MultiToggle"
+                            paste="onPaste"
+                            ariaLabelledBy="title"
+                            visibleRowCount="8"
+                            width="100%">
+                    
+                        <t:extension>
+                            <OverflowToolbar >
+                                <Button text="Search" icon="sap-icon://search" press="onSearch" />
+                                <Input id="Remark" placeholder="Remark" width="12rem" />
+                                <Input id="Belnr1" placeholder="Document number" width="9rem" />
+                            </OverflowToolbar>
+                        </t:extension>
+
+                        <t:columns>
+                        
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Ryear/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Ryear}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Rbukrs/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Rbukrs}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Belnr/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Belnr}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Racct/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Racct}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Remark/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Remark}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Hsl/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Hsl}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/Rtcur/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Rtcur}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="11rem">
+                                <Label text="{/#cart_infoSet/PostYn/@sap:label}" />
+                                <t:template>
+                                    <Text text="{PostYn}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+                        
+                        </t:columns>
+                    
+                    </t:Table>
+                
+                </VBox>            
+            </Panel>
+    </Page>                
+
+</mvc:View>        

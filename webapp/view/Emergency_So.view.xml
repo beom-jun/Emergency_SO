@@ -1,10 +1,177 @@
-<mvc:View
-    controllerName="emergencyso.emergencyso.controller.Emergency_So"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
->
-    <Page
-        id="page"
-        title="{i18n>title}"
-    />
+<mvc:View controllerName="emergencyso.emergencyso.controller.Emergency_So"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:t="sap.ui.table"
+        xmlns:u="sap.ui.unified"
+        xmlns:c="sap.ui.core"
+        xmlns="sap.m"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:l="sap.ui.layout">
+        
+    <Page id="page" title="{i18n>title}"
+                    showHeader="false"
+                    enableScrolling="false"
+                    class="sapUiContentPadding">  
+        <Panel >
+            
+             <!--       긴급 판매오더 생성 입력란       -->
+            <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start">
+                <l:VerticalLayout class="sapUiContentPadding"
+		                          width="300px">
+                
+                    <l:content>
+                        <Label text="자재번호" labelFor="inputValueHelpCustomIcon"/>
+                        
+                        <Input  id="inputValueHelpCustomIcon1"
+                                class="sapUiSmallMarginBottom"
+                                type="Text"
+                                placeholder="Enter product"
+                                showValueHelp="true"
+                                valueHelpIconSrc="sap-icon://value-help"
+                                valueHelpRequest="handleValueHelp"/>    
+                    
+                    </l:content>
+                
+                </l:VerticalLayout>
+
+                <l:VerticalLayout class="sapUiContentPadding"
+		                          width="300px">
+                
+                    <Label text="주문 수량" labelFor="inputNumber" />
+
+                    <Input  id="inputNumber"
+                            type="Number"
+                            placeholder="Enter a number"
+                            class="sapUiSmallMarginBottom" />
+                
+                </l:VerticalLayout>
+
+                <l:VerticalLayout class="sapUiContentPadding"
+		                          width="300px">
+                
+                    <l:content>
+                        <Label text="요청 BP번호" labelFor="inputValueHelpCustomIcon"/>
+                        
+                        <Input  id="inputValueHelpCustomIcon3"
+                                class="sapUiSmallMarginBottom"
+                                type="Text"
+                                placeholder="Enter product"
+                                showValueHelp="true"
+                                valueHelpIconSrc="sap-icon://value-help"
+                                valueHelpRequest="handleValueHelp"/>    
+                    
+                    </l:content>
+                
+                </l:VerticalLayout>
+
+                <l:VerticalLayout class="sapUiContentPadding"
+		                          width="300px">
+                
+                    <Panel 	id="datePanel"
+                            width="auto">
+
+                   <Label text="요청 일자"/>
+
+                    <DatePicker id="DP8"
+                                placeholder="Enter Date"
+                                change="handleChange"
+                                class="sapUiSmallMarginBottom"
+                                showFooter="true"/>
+
+                    </Panel>
+                
+                </l:VerticalLayout>
+            </FlexBox>
+
+            <!--        Header Table 조회란         -->
+
+            <VBox class="sapUiLargeMarginTop">
+                <Panel headerText="헤더 테이블"></Panel>
+
+                <t:Table id="DocuTable1"
+                         rows="{/cart_infoSet}"
+                         selectionMode="MultiToggle"
+                         paste="onPaste"
+                         ariaLabelledBy="title"
+                         visibleRowCount="10"
+                         width="100%">
+                         
+                
+                    <t:extension>
+                        <OverflowToolbar>
+                            <Button text="Search" icon="sap-icon://search" press="onSearch" />
+                            <Input id="Remark1" placeholder="판매오더번호" width="12rem" />
+
+                        <ToolbarSpacer/>  
+
+                            <Button class='sap.m.FlexAlignContent.End' text="주문 상세내역 조회" icon="sap-icon://approvals" press="onSearch"></Button>
+                        </OverflowToolbar>
+                    </t:extension>
+
+                    <t:columns>
+                    
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Ryear/@sap:label}" />
+                            <t:template>
+                                <Text text="{Ryear}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Rbukrs/@sap:label}" />
+                            <t:template>
+                                <Text text="{Rbukrs}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Belnr/@sap:label}" />
+                            <t:template>
+                                <Text text="{Belnr}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Racct/@sap:label}" />
+                            <t:template>
+                                <Text text="{Racct}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Remark/@sap:label}" />
+                            <t:template>
+                                <Text text="{Remark}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Hsl/@sap:label}" />
+                            <t:template>
+                                <Text text="{Hsl}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/Rtcur/@sap:label}" />
+                            <t:template>
+                                <Text text="{Rtcur}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+
+                        <t:Column width="11rem">
+                            <Label text="{/#cart_infoSet/PostYn/@sap:label}" />
+                            <t:template>
+                                <Text text="{PostYn}" wrapping="false" />
+                            </t:template>
+                        </t:Column>
+                    
+                    </t:columns>
+                
+                </t:Table>
+            
+            </VBox>
+            
+        </Panel>
+    </Page>
+
 </mvc:View>
