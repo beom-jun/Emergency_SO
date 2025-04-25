@@ -24,12 +24,12 @@
                             selectionMode="MultiToggle"
                             paste="onPaste"
                             ariaLabelledBy="title"
-                            visibleRowCount="8"
+                            visibleRowCount="20"
                             width="100%">
                     
                         <t:extension>
                             <OverflowToolbar >
-                                <Input id="VbelnSo1" placeholder="판매오더 번호" width="12rem" />
+                                <Input id="VbelnSo1" placeholder="판매오더 번호" liveChange="onInputChanged" width="12rem" />
                                 <Button text="Search" icon="sap-icon://search" press="onSearch" />
                             </OverflowToolbar>
                         </t:extension>

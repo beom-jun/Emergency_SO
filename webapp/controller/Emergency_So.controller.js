@@ -11,6 +11,19 @@ sap.ui.define([
              let oModel = new sap.ui.model.odata.v2.ODataModel("/sap/opu/odata/SAP/ZGWC102_SDORDER_SRV/");// 바인딩 받은 엔티티들 세팅팅
              this.getView().setModel(oModel); // alias 없이 기본 모델로 설정
 
+             //엔터 이벤트
+             this.getView().byId("VbelnSo").attachBrowserEvent("keypress", function (event) {
+              if (event.key === "Enter") { 
+                  this.onSearch();
+              }
+            }.bind(this));
+        
+            this.getView().byId("Partner2").attachBrowserEvent("keypress", function (event) {
+                if (event.key === "Enter") { 
+                    this.onSearch();
+                }
+            }.bind(this));
+
              //자재번호 설치헬프 임의로 넣어줌
              const aMaterialList = [
               { Matnr: "M0001", Maktx: "닭" },
@@ -50,32 +63,62 @@ sap.ui.define([
             oRouter.navTo("RouteitemSo")
         },
         onSearch: function () {
-            const vVbelnSo = this.getView().byId('VbelnSo').getValue().trim()
-            const oTable = this.getView().byId('DocuTable');
-            const oBinding = oTable.getBinding('rows');
-            const aFilter = [];
+            const vVbelnSo = this.getView().byId('VbelnSo').getValue().toUpperCase();
+            const vPartner = this.getView().byId('Partner2').getValue().toUpperCase();
+            // const vCusno = this.getView().byId('Cusno').getValue();
 
-            if (vVbelnSo !== '') {
-              const oFilter = new Filter({
-                path: 'VbelnSo',
-                operator: FilterOperator.Contains,
-                value1: vVbelnSo
-              });
-              aFilter.push(oFilter);
+            let otable   = this.getView().byId('DocuTable'), //테이블 받아오기
+                oBinding = otable.getBinding('rows'), //검색 객체
+                oFilter  = null, //검색어를 구성하는 객체
+                aFilter  = []; //검색어를 받을 배열
+
+              // if (!vVbelnSo && !vPartner) {
+              //   oBinding.filter([]); //  필터 없이 전체 데이터 보여줌
+              //   return;
+              // }
+
+              if (!vVbelnSo && !vPartner) {
+                oBinding.filter([]);            // 필터 제거
+                oBinding.refresh(true);         // 서버에서 전체 데이터 다시 요청
+                return;
             }
+
+            // Filter 구성
+            if(vVbelnSo!= ''){
+              oFilter = new Filter({
+                  path: 'VbelnSo' ,
+                  operator: FilterOperator.Contains,
+                  value1: vVbelnSo
+              });
+
+              aFilter.push(oFilter);
+              oFilter = null;
+            }
+
+            if(vPartner!= ''){
+              oFilter = new Filter({
+                  path: 'Partner' ,
+                  operator: FilterOperator.Contains,
+                  value1: vPartner
+              });
+
+              aFilter.push(oFilter);
+              oFilter = null;
+            }
+
+            aFilter.push(new Filter({
+              path: 'Cusno',
+              operator: FilterOperator.EQ,
+              value1: 'C10001'
+            }));
           
             oBinding.filter(aFilter);
-
-            oBinding.attachEventOnce("dataReceived", function () {
-              if (oBinding.getLength() === 0) {
-                MessageToast.show("검색된 결과가 없습니다.");
-              }
-            });
             
              // 확인 로그
-                console.log("Filtered row count (may be async):", oBinding.getLength());
-                console.log("입력된 판매오더번호:", aFilter);
+                // console.log("Filtered row count (may be async):", oBinding.getLength());
+                // console.log("입력된 판매오더번호:", aFilter);
           },
+       
         onCreate: function () {
             const oView = this.getView();
             const oModel = oView.getModel();
@@ -89,6 +132,11 @@ sap.ui.define([
             const sOrtype = oView.byId("Ortype").getValue();
             const sAudat = oView.byId("Audat").getValue(); // yyyy-mm-dd 형식으로 되어 있어야 함
           
+            if ( !sMatnr || !sPartner || !sPequan || !sAudat ){
+              MessageToast.show("모두 입력해야 생성이 가능합니다!");
+              return;
+            }
+
             // 숫자 변환 실패 시 기본값 처리 (예: 0)
             if (isNaN(iPequan)) {
                 MessageToast.show("수량(Pequan)은 숫자만 입력해야 합니다.");
@@ -141,8 +189,28 @@ sap.ui.define([
           const oFilter = new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.Contains, sValue);
           const oInput = oEvent.getSource();
           oInput.getBinding("suggestionItems").filter([oFilter]);
-        }
+        },
 
+        onInputChanged: function (oEvent) { //사용자가 검색 input 비울 시 전체 데이터 렌더링
+          const sValue = oEvent.getParameter("value").trim();
+          const oTable = this.getView().byId("DocuTable");
+          const oBinding = oTable.getBinding("rows");
+      
+          if (sValue === "") {
+              oBinding.filter([]);       // 전체 데이터 보여주기
+              oBinding.refresh(true);    // 서버에서 다시 가져오기
+          }
+      },
+        onInputChanged2: function (oEvent) {
+          const sValue = oEvent.getParameter("value").trim();
+          const oTable = this.getView().byId("DocuTable");
+          const oBinding = oTable.getBinding("rows");
+      
+          if (sValue === "") {
+              oBinding.filter([]);       // 전체 데이터 보여주기
+              oBinding.refresh(true);    // 서버에서 다시 가져오기
+          }
+      }
           
     });
 });

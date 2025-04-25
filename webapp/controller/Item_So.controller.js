@@ -8,6 +8,12 @@ sap.ui.define([
     return Controller.extend("emergencyso.emergencyso.controller.Item_So", {
         onInit() {
 
+            //엔터 이벤트
+            this.getView().byId("VbelnSo1").attachBrowserEvent("keypress", function (event) {
+                if (event.key === "Enter") { 
+                    this.onSearch();
+                }
+              }.bind(this));
         },
         onHeader() {
 
@@ -45,17 +51,33 @@ sap.ui.define([
                 
                 oBinding.filter(aFilter);
 
-                if (oBinding.getLength() === 0) {
-                    MessageToast.show("검색된 결과가 없습니다.");
-                }
-
                 oBinding.refresh(); // 💡 추가
 
                 // 확인 로그
                 // console.log("Current filter:", oBinding.getFilters());
-                console.log("Filtered row count (may be async):", oBinding.getLength());
-                console.log("입력된 판매오더번호:", aFilter);
+                // console.log("Filtered row count (may be async):", oBinding.getLength());
+                // console.log("입력된 판매오더번호:", aFilter);
           }, 
+          onInputChanged: function (oEvent) { //사용자가 검색 input 비울 시 전체 데이터 렌더링
+            const sValue = oEvent.getParameter("value").trim();
+            const oTable = this.getView().byId("DocuTable2");
+            const oBinding = oTable.getBinding("rows");
+        
+            if (sValue === "") {
+                oBinding.filter([]);       // 전체 데이터 보여주기
+                oBinding.refresh(true);    // 서버에서 다시 가져오기
+            }
+        },
+          onInputChanged2: function (oEvent) {
+            const sValue = oEvent.getParameter("value").trim();
+            const oTable = this.getView().byId("DocuTable2");
+            const oBinding = oTable.getBinding("rows");
+        
+            if (sValue === "") {
+                oBinding.filter([]);       // 전체 데이터 보여주기
+                oBinding.refresh(true);    // 서버에서 다시 가져오기
+            }
+        }
     
     });
 });

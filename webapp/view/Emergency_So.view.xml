@@ -21,7 +21,7 @@
 
             <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start" id="1">
                 <l:VerticalLayout class="sapUiContentPadding"
-		                          width="300px">
+		                          width="235px">
                 
                     <l:content>
                         <Label text="자재번호" labelFor="inputValueHelpCustomIcon"/>
@@ -45,7 +45,7 @@
                 </l:VerticalLayout>
 
                 <l:VerticalLayout class="sapUiContentPadding"
-		                          width="300px">
+		                          width="235px">
                 
                     <Label text="주문 수량" labelFor="inputNumber" />
 
@@ -57,7 +57,7 @@
                 </l:VerticalLayout>
 
                 <l:VerticalLayout class="sapUiContentPadding"
-		                          width="300px">
+		                          width="235px">
                 
                     <l:content>
                         <Label text="판매오더 유형" labelFor="inputValueHelpCustomIcon"/>
@@ -73,11 +73,9 @@
                     </l:content>
                 
                 </l:VerticalLayout>
-            </FlexBox>    
 
-            <FlexBox direction="Row" class="sapUiSmallMargin" justifyContent="Start" id="flexBox2">
                 <l:VerticalLayout class="sapUiContentPadding"
-		                          width="300px">
+		                          width="235px">
                 
                     <l:content>
                         <Label text="요청 BP번호" labelFor="inputValueHelpCustomIcon"/>
@@ -101,7 +99,7 @@
                 </l:VerticalLayout>
 
                 <l:VerticalLayout class="sapUiContentPadding"
-		                          width="300px">
+		                          width="235px">
                 
                     <Panel 	id="datePanel"
                             width="auto">
@@ -119,7 +117,9 @@
                     </Panel>
                 
                 </l:VerticalLayout>
+
             </FlexBox>
+
 
             <HBox class='content_margin'></HBox>
 
@@ -133,13 +133,14 @@
                          selectionMode="MultiToggle"
                          paste="onPaste"
                          ariaLabelledBy="title"
-                         visibleRowCount="10"
+                         visibleRowCount="15"
                          width="100%">
                          
                 
                     <t:extension>
                         <OverflowToolbar>
-                            <Input id="VbelnSo" placeholder="판매오더번호" width="13rem" />
+                            <Input id="VbelnSo"  liveChange="onInputChanged" placeholder="판매오더번호" width="13rem" />
+                            <Input id="Partner2" liveChange="onInputChanged2" placeholder="BP번호" width="13rem" />
                             <Button text="Search" icon="sap-icon://search" press="onSearch" />
                         <ToolbarSpacer/>  
 
