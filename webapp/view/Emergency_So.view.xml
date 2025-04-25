@@ -24,16 +24,22 @@
 		                          width="300px">
                 
                     <l:content>
-                        <Label text="dd" labelFor="inputValueHelpCustomIcon"/>
+                        <Label text="자재번호" labelFor="inputValueHelpCustomIcon"/>
                         
                         <Input  id="Matnr"
-                                class="sapUiSmallMarginBottom"
-                                type="Text"
-                                placeholder="Enter product"
-                                showValueHelp="true"
+                                showSuggestion="true"
+                                suggest="onSuggestMaterial" 
+                                placeholder="M0000"
                                 valueHelpIconSrc="sap-icon://value-help"
-                                valueHelpRequest="handleValueHelp"/>    
-                    
+                                suggestionItems="{
+                                                path: 'local>/MaterialSet',
+                                                sorter: { path: 'Matnr' }
+                                            }">
+                                    <suggestionItems>
+                                        <SuggestionItem text="{local>Matnr}" description="{local>Maktx}" />
+                                    </suggestionItems>
+                        </Input>
+  
                     </l:content>
                 
                 </l:VerticalLayout>
@@ -59,9 +65,9 @@
                         <Input  id="Ortype"
                                 class="sapUiSmallMarginBottom"
                                 type="Text"
-                                placeholder="Enter product"
-                                showValueHelp="true"
-                                valueHelpIconSrc="sap-icon://value-help"
+                                value="E"
+                                editable="false"
+                                showValueHelp="false"
                                 valueHelpRequest="handleValueHelp"/>    
                     
                     </l:content>
@@ -75,14 +81,20 @@
                 
                     <l:content>
                         <Label text="요청 BP번호" labelFor="inputValueHelpCustomIcon"/>
-                        
+
                         <Input  id="Partner"
-                                class="sapUiSmallMarginBottom"
-                                type="Text"
-                                placeholder="Enter product"
-                                showValueHelp="true"
+                                showSuggestion="true"
+                                suggest="onSuggestPartner"
+                                placeholder="BP00" 
                                 valueHelpIconSrc="sap-icon://value-help"
-                                valueHelpRequest="handleValueHelp"/>    
+                                suggestionItems="{
+                                                path: 'local>/PartnerSet',
+                                                sorter: { path: 'Partner' }
+                                            }">
+
+                                <SuggestionItem text="{local>Partner}" description="{path:'Partxt'}" key="{Partner}" />
+
+                        </Input>            
                     
                     </l:content>
                 

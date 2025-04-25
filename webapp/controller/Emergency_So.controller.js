@@ -7,10 +7,32 @@ sap.ui.define([
 
     return Controller.extend("emergencyso.emergencyso.controller.Emergency_So", {
         onInit: function () {
-             let oModel = new sap.ui.model.odata.v2.ODataModel("/sap/opu/odata/SAP/ZGWC102_SDORDER_SRV/");
-            this.getView().setModel(oModel); // alias 없이 기본 모델로 설정
+
+             let oModel = new sap.ui.model.odata.v2.ODataModel("/sap/opu/odata/SAP/ZGWC102_SDORDER_SRV/");// 바인딩 받은 엔티티들 세팅팅
+             this.getView().setModel(oModel); // alias 없이 기본 모델로 설정
+
+             //자재번호 설치헬프 임의로 넣어줌
+             const aMaterialList = [
+              { Matnr: "M0001", Maktx: "닭" },
+              { Matnr: "M0002", Maktx: "탑코트" },
+              { Matnr: "M0003", Maktx: "실란트" },
+              { Matnr: "M0004", Maktx: "LA갈비" }
+            ];
+
+            //요청 BP 번호 설치헬프 임의로 넣어줌
+            const aPartnerList = [
+              { Partner: "BP01", Partxt: "A사" },
+              { Partner: "BP02", Partxt: "B사" },
+              { Partner: "BP03", Partxt: "C사" }
+            ];
+
+            const oJsonModel = new sap.ui.model.json.JSONModel({ MaterialSet: aMaterialList,
+                                                                 PartnerSet : aPartnerList });
+             
+            this.getView().setModel(oJsonModel, "local");
+
           },
-          onEntity(){ //설정
+          onRefresh(){ //초기화
             this.getView().byId('VbelnSo').setValue('');
             this.getView().byId('Partner').setValue('');
             this.getView().byId('Ortype').setValue('');
@@ -87,18 +109,40 @@ sap.ui.define([
                   }
                 ]
               };
-              console.log("Payload", oPayload);
 
-            oModel.create("/SO_ORDERSet", oPayload, {
-              success: function () {
-                MessageToast.show("생성 성공!");
-              },
-              error: function (oError) {
-                MessageToast.show("생성 실패!");
-                console.error(JSON.parse(oError.responseText));
+          oModel.create("/SO_ORDERSet", oPayload, {
+            success: function () {
+              MessageToast.show("판매오더 생성 성공!");
+          
+              // 👉 테이블 자동 새로고침 (테이블 ID에 맞춰 수정)
+              const oTable = oView.byId("soOrderTable");
+              if (oTable) {
+                const oBinding = oTable.getBinding("items");
+                if (oBinding) {
+                  oBinding.refresh();
+                }
               }
-            });
-          }  
+            },
+          
+            error: function (oError) {
+              MessageToast.show("생성 실패!");
+              console.error(JSON.parse(oError.responseText));
+            }
+          });
+        },
+        onSuggestMaterial: function (oEvent) { //사용자 자재번호 검색 시 포함 언어 필터링
+          const sValue = oEvent.getParameter("suggestValue");
+          const oFilter = new sap.ui.model.Filter("Matnr", sap.ui.model.FilterOperator.Contains, sValue);
+          const oInput = oEvent.getSource();
+          oInput.getBinding("suggestionItems").filter([oFilter]);
+        },
+        onSuggestPartner: function (oEvent) { //사용자 BP번호 검색 시 포함 언어 필터링
+          const sValue = oEvent.getParameter("suggestValue");
+          const oFilter = new sap.ui.model.Filter("Partner", sap.ui.model.FilterOperator.Contains, sValue);
+          const oInput = oEvent.getSource();
+          oInput.getBinding("suggestionItems").filter([oFilter]);
+        }
+
           
     });
 });
