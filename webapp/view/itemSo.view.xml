@@ -21,7 +21,7 @@
                 
                     <t:Table id="DocuTable2"
                             rows="{/SO_ORDER_ITEMSet}"
-                            selectionMode="MultiToggle"
+                            selectionMode="None"
                             paste="onPaste"
                             ariaLabelledBy="title"
                             visibleRowCount="20"

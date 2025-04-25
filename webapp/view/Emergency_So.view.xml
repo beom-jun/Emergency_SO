@@ -130,7 +130,7 @@
 
                 <t:Table id="DocuTable"
                          rows="{/SO_ORDERSet}"
-                         selectionMode="MultiToggle"
+                         selectionMode="None"
                          paste="onPaste"
                          ariaLabelledBy="title"
                          visibleRowCount="15"
