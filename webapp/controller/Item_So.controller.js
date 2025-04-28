@@ -8,12 +8,25 @@ sap.ui.define([
     return Controller.extend("emergencyso.emergencyso.controller.Item_So", {
         onInit() {
 
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("RouteitemSo").attachPatternMatched(this.onRouteMatched, this);
+
             //엔터 이벤트
             this.getView().byId("VbelnSo1").attachBrowserEvent("keypress", function (event) {
                 if (event.key === "Enter") { 
                     this.onSearch();
                 }
               }.bind(this));
+        },
+        onRouteMatched: function(oEvent) {
+            const sVbelnSo = oEvent.getParameter("arguments").VbelnSo;  // 넘어온 VbelnSo 파라미터
+            const oTable = this.getView().byId("DocuTable2");           // 상세페이지 테이블 ID
+            const oBinding = oTable.getBinding("rows");
+        
+            if (sVbelnSo) {
+                const oFilter = new sap.ui.model.Filter("VbelnSo", sap.ui.model.FilterOperator.EQ, sVbelnSo);
+                oBinding.filter([oFilter]);
+            }
         },
         onHeader() {
 

@@ -98,7 +98,7 @@
         },
         {
           "name": "RouteitemSo",
-          "pattern": "Item",
+          "pattern": "itemSo/{VbelnSo}",
           "target": [
             "TargetitemSo"
           ]

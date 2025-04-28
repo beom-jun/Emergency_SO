@@ -59,10 +59,31 @@ sap.ui.define([
             this.getView().byId('Scost').setValue('');
             this.getView().byId('Waers').setValue(''); 
         },
-        onItem(){ //Route 설정
-            let oRouter = this.getOwnerComponent().getRouter();
-            oRouter.navTo("RouteitemSo")
-        },
+        // onItem(){ //Route 설정
+        //     let oRouter = this.getOwnerComponent().getRouter();
+        //     let oModel = this.getView().getModel();
+
+        //     oModel.refresh(true);
+
+        //     oRouter.navTo("RouteitemSo")
+        // },
+        onItem: function() {
+          let oRouter = this.getOwnerComponent().getRouter();
+          let oTable = this.getView().byId("DocuTable");
+          let aSelectedIndices = oTable.getSelectedIndices();  // 첫 번째 선택된 Row
+      
+          if (aSelectedIndices.length === 0) {
+              sap.m.MessageToast.show("조회를 원하는 판매오더를 선택해주세요.");
+              return;
+          }
+      
+          const iSelectedIndex = aSelectedIndices[0]; // 첫 번째 선택된 행 인덱스
+          const oContext = oTable.getContextByIndex(iSelectedIndex); // 인덱스로 Context 가져오기
+          const sVbelnSo = oContext.getObject().VbelnSo; // context에서 데이터 읽기
+      
+          // VbelnSo를 파라미터로 넘기면서 이동
+          oRouter.navTo("RouteitemSo", { VbelnSo: sVbelnSo });
+      },
         onSearch: function () {
             const vVbelnSo = this.getView().byId('VbelnSo').getValue().toUpperCase();
             const vPartner = this.getView().byId('Partner2').getValue().toUpperCase();

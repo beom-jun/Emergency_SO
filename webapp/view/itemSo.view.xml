@@ -24,7 +24,7 @@
                             selectionMode="None"
                             paste="onPaste"
                             ariaLabelledBy="title"
-                            visibleRowCount="20"
+                            visibleRowCount="10"
                             width="100%">
                     
                         <t:extension>
@@ -61,18 +61,19 @@
 
 
                             <t:Column width="12.5rem">
-                                <Label text="{/#SO_ORDER_ITEMSet/Pequan/@sap:label}" />
+                                <!-- <Label text="{/#SO_ORDER_ITEMSet/Pequan/@sap:label}" /> -->
+                                <Label text="주문 수량" />
                                 <t:template>
                                     <Text text="{Pequan}" wrapping="false" />
                                 </t:template>
                             </t:Column>
 
-                            <t:Column width="12.5rem">
+                            <!-- <t:Column width="12.5rem">
                                 <Label text="{/#SO_ORDER_ITEMSet/Stprs/@sap:label}" />
                                 <t:template>
                                     <Text text="{Stprs}" wrapping="false" />
                                 </t:template>
-                            </t:Column>
+                            </t:Column> -->
 
                             <t:Column width="12.5rem">
                                 <Label text="{/#SO_ORDER_ITEMSet/Scost/@sap:label}" />

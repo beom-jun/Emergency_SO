@@ -130,7 +130,7 @@
 
                 <t:Table id="DocuTable"
                          rows="{/SO_ORDERSet}"
-                         selectionMode="None"
+                         selectionMode="Single"
                          paste="onPaste"
                          ariaLabelledBy="title"
                          visibleRowCount="15"
@@ -168,7 +168,8 @@
                         </t:Column>
 
                         <t:Column width="20rem">
-                            <Label text="{/#SO_ORDERSet/Ortype/@sap:label}" />
+                            <!-- <Label text="{/#SO_ORDERSet/Ortype/@sap:label}" /> -->
+                            <Label text="판매오더 유형" />
                             <t:template>
                                 <Text text="{Ortype}" wrapping="false" />
                             </t:template>

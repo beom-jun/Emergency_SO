@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: emergencyso.emergencyso
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: http://bgissap1.bgissap.co.kr:8000
+          client: '100'
+        app:
+          name: ZEMERGENCY_SO
+          description: 긴급판매오더 생성
+          package: ZC102
+          transport: EFXK901109
+        exclude:
+          - /test/
