@@ -138,60 +138,62 @@
                          
                 
                     <t:extension>
-                        <OverflowToolbar>
-                            <Input id="VbelnSo"  liveChange="onInputChanged" placeholder="판매오더번호" width="13rem" />
-                            <Input id="Partner2" liveChange="onInputChanged2" placeholder="BP번호" width="13rem" />
-                            <Button text="Search" icon="sap-icon://search" press="onSearch" />
-                        <ToolbarSpacer/>  
+                        <VBox class='margin_b'>
+                            <OverflowToolbar>
+                                <Input id="VbelnSo"  liveChange="onInputChanged" placeholder="판매오더번호" width="13rem" />
+                                <Input id="Partner2" liveChange="onInputChanged2" placeholder="BP번호" width="13rem" />
+                                <Button text="Search" icon="sap-icon://search" press="onSearch" />
+                            <ToolbarSpacer/>  
 
-                            <Button class='sap.m.FlexAlignContent.End' text="주문 상세내역 조회" 
-                                    icon="sap-icon://approvals" press="onItem"></Button>
-                        </OverflowToolbar>
+                                <Button class='sap.m.FlexAlignContent.End' text="주문 상세내역 조회" 
+                                        icon="sap-icon://approvals" press="onItem"></Button>
+                            </OverflowToolbar>
+                        </VBox>    
                     </t:extension>
 
                     <t:columns>
-                    
-                        <t:Column width="12rem">
+                     
+                        <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/VbelnSo/@sap:label}" />
                             <t:template>
                                 <Text text="{VbelnSo}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="12.5rem">
+                        <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/Partner/@sap:label}" />
                             <t:template>
                                 <Text text="{Partner}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="12.5rem">
+                        <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/Ortype/@sap:label}" />
                             <t:template>
                                 <Text text="{Ortype}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="12.5rem">
+                        <!-- <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/Menge/@sap:label}" />
                             <t:template>
                                 <Text text="{Menge}" wrapping="false" />
                             </t:template>
-                        </t:Column>
+                        </t:Column> -->
 
-                        <t:Column width="12.5rem">
+                        <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/Audat/@sap:label}" />
                             <t:template>
                                 <Text text="{Audat}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="12.5rem">
+                        <!-- <t:Column width="20rem">
                             <Label text="{/#SO_ORDERSet/Netwr/@sap:label}" />
                             <t:template>
                                 <Text text="{Netwr}" wrapping="false" />
                             </t:template>
-                        </t:Column>
+                        </t:Column> -->
                     
                     </t:columns>
                 

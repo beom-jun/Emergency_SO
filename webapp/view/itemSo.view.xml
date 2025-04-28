@@ -28,10 +28,12 @@
                             width="100%">
                     
                         <t:extension>
-                            <OverflowToolbar >
-                                <Input id="VbelnSo1" placeholder="판매오더 번호" liveChange="onInputChanged" width="12rem" />
-                                <Button text="Search" icon="sap-icon://search" press="onSearch" />
-                            </OverflowToolbar>
+                            <VBox class='margin_b'>
+                                <OverflowToolbar >
+                                    <Input id="VbelnSo1" placeholder="판매오더 번호" liveChange="onInputChanged" width="12rem" />
+                                    <Button text="Search" icon="sap-icon://search" press="onSearch" />
+                                </OverflowToolbar>
+                            </VBox>   
                         </t:extension>
 
                         <t:columns>
@@ -69,6 +71,20 @@
                                 <Label text="{/#SO_ORDER_ITEMSet/Stprs/@sap:label}" />
                                 <t:template>
                                     <Text text="{Stprs}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Scost/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Scost}" wrapping="false" />
+                                </t:template>
+                            </t:Column>
+
+                            <t:Column width="12.5rem">
+                                <Label text="{/#SO_ORDER_ITEMSet/Netwr/@sap:label}" />
+                                <t:template>
+                                    <Text text="{Netwr}" wrapping="false" />
                                 </t:template>
                             </t:Column>
 

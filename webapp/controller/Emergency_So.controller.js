@@ -56,6 +56,7 @@ sap.ui.define([
             this.getView().byId('Matnr').setValue('');
             this.getView().byId('Pequan').setValue(''); 
             this.getView().byId('Stprs').setValue(''); 
+            this.getView().byId('Scost').setValue('');
             this.getView().byId('Waers').setValue(''); 
         },
         onItem(){ //Route 설정

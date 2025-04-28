@@ -3,6 +3,10 @@
     margin-top: 30px;
 }
 
+.margin_b{
+    margin-bottom: 50px;
+}
+
 .header_text{
     font-style: italic;
     font-weight: bold;
