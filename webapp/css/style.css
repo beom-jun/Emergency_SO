@@ -17,3 +17,26 @@
     margin-bottom: 30px;
     border: 0.5px solid rgb(213, 211, 211);
 }
+
+.matnr-text{
+    color: blue;
+    font-weight: bolder;
+}
+
+.matnr-text1{
+    color: #636a71;
+}
+
+.matnr_info{
+    margin-top: 15px;
+}
+
+.highlightRow {
+  background-color: #a5f3cc !important;
+  animation: fadeOut 2s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+  0% { background-color: #ffe082; }
+  100% { background-color: transparent; }
+}

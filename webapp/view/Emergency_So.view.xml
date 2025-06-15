@@ -30,16 +30,24 @@
                                 showSuggestion="true"
                                 suggest="onSuggestMaterial" 
                                 placeholder="M0000"
+                                change="onMatnrChanged"
                                 valueHelpIconSrc="sap-icon://value-help"
                                 suggestionItems="{
                                                 path: 'local>/MaterialSet',
                                                 sorter: { path: 'Matnr' }
                                             }">
                                     <suggestionItems>
-                                        <SuggestionItem text="{local>Matnr}" description="{local>Maktx}" />
+                                        <SuggestionItem key="{local>Matnr}"
+                                                        text="{local>Matnr}"
+                                                        description="{local>Maktx}" />
                                     </suggestionItems>
                         </Input>
-  
+
+                        <HBox class="matnr_info">
+                            <Text text="자재명 :" class="matnr-text1"/>
+                            <Text id="MatDesc" text=" " class="sapUiSmallMarginBegin matnr-text"  />
+                        </HBox>
+                        
                     </l:content>
                 
                 </l:VerticalLayout>
@@ -84,11 +92,14 @@
                                 showSuggestion="true"
                                 suggest="onSuggestPartner"
                                 placeholder="BP00" 
+                        
                                 valueHelpIconSrc="sap-icon://value-help"
                                 suggestionItems="{
-                                                path: 'local>/PartnerSet',
+                                                path: 'local>/FilteredPartnerSet',
+                                                
                                                 sorter: { path: 'Partner' }
-                                            }">
+                                            }"
+                                            >
 
                                 <SuggestionItem text="{local>Partner}" description="{path:'Partxt'}" key="{Partner}" />
 
@@ -109,6 +120,8 @@
                     <DatePicker id="Audat"
                                 change="handleChange"
                                 class="sapUiSmallMarginBottom"
+                                value="E"
+                                editable="false"
                                 placeholder="YYYY-MM-DD"
                                 displayFormat="yyyy-MM-dd"
                                 valueFormat="yyyy-MM-dd"
@@ -140,8 +153,8 @@
                     <t:extension>
                         <VBox class='margin_b'>
                             <OverflowToolbar>
-                                <Input id="VbelnSo"  liveChange="onInputChanged" placeholder="판매오더번호" width="13rem" />
-                                <Input id="Partner2" liveChange="onInputChanged2" placeholder="BP번호" width="13rem" />
+                                <Input id="VbelnSo"  liveChange="onInputChanged" placeholder="판매오더번호" width="208px" />
+                                <!-- <Input id="Partner2" liveChange="onInputChanged2" placeholder="BP번호" width="208px" /> -->
                                 <Button text="Search" icon="sap-icon://search" press="onSearch" />
                             <ToolbarSpacer/>  
 
@@ -153,43 +166,46 @@
 
                     <t:columns>
                      
-                        <t:Column width="20rem">
+                        <t:Column width="310px">
                             <Label text="{/#SO_ORDERSet/VbelnSo/@sap:label}" />
                             <t:template>
                                 <Text text="{VbelnSo}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="20rem">
+                        <t:Column width="310px">
                             <Label text="{/#SO_ORDERSet/Partner/@sap:label}" />
                             <t:template>
                                 <Text text="{Partner}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <t:Column width="20rem">
-                            <!-- <Label text="{/#SO_ORDERSet/Ortype/@sap:label}" /> -->
+                        <t:Column width="310px">
                             <Label text="판매오더 유형" />
                             <t:template>
-                                <Text text="{Ortype}" wrapping="false" />
+                                <!-- <Text text="{Ortype}" wrapping="false" /> -->
+                                <ObjectStatus
+                                        text="{Ortype}"
+                                        icon="{= ${Ortype} === 'E' ? 'sap-icon://warning' : '' }"
+                                        state="{= ${Ortype} === 'E' ? 'Error' : (${Ortype} === 'G' ? 'Information' : 'None') }"/>
                             </t:template>
                         </t:Column>
 
-                        <!-- <t:Column width="20rem">
+                        <!-- <t:Column width="310px">
                             <Label text="{/#SO_ORDERSet/Menge/@sap:label}" />
                             <t:template>
                                 <Text text="{Menge}" wrapping="false" />
                             </t:template>
                         </t:Column> -->
 
-                        <t:Column width="20rem">
+                        <t:Column width="310px">
                             <Label text="{/#SO_ORDERSet/Audat/@sap:label}" />
                             <t:template>
                                 <Text text="{Audat}" wrapping="false" />
                             </t:template>
                         </t:Column>
 
-                        <!-- <t:Column width="20rem">
+                        <!-- <t:Column width="310px">
                             <Label text="{/#SO_ORDERSet/Netwr/@sap:label}" />
                             <t:template>
                                 <Text text="{Netwr}" wrapping="false" />

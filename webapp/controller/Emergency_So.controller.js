@@ -18,32 +18,85 @@ sap.ui.define([
               }
             }.bind(this));
         
-            this.getView().byId("Partner2").attachBrowserEvent("keypress", function (event) {
-                if (event.key === "Enter") { 
-                    this.onSearch();
-                }
-            }.bind(this));
+            // this.getView().byId("Partner2").attachBrowserEvent("keypress", function (event) {
+            //     if (event.key === "Enter") { 
+            //         this.onSearch();
+            //     }
+            // }.bind(this));
 
              //자재번호 설치헬프 임의로 넣어줌
              const aMaterialList = [
-              { Matnr: "M0001", Maktx: "닭" },
-              { Matnr: "M0002", Maktx: "탑코트" },
-              { Matnr: "M0003", Maktx: "실란트" },
-              { Matnr: "M0004", Maktx: "LA갈비" }
+              { Matnr: "M0001", Maktx: "포장소고기" },
+              { Matnr: "M0002", Maktx: "LA갈비" },
+              { Matnr: "M0003", Maktx: "콩고기 순두부찌개" },
+              { Matnr: "M0004", Maktx: "포장 돼지고기" },
+              { Matnr: "M0005", Maktx: "포장 닭고기" },
+              { Matnr: "M0006", Maktx: "도가니탕" },
+              { Matnr: "M0007", Maktx: "치킨너겟" },
+              { Matnr: "M0008", Maktx: "콩고기 햄 통조림" },
+              { Matnr: "M0009", Maktx: "할랄 소갈비 밀키트" },
             ];
+
+            const oLocalModel = new sap.ui.model.json.JSONModel();
+                  oLocalModel.setData({ MaterialSet: aMaterialList });
+                  this.getView().setModel(oLocalModel, "local"); 
 
             //요청 BP 번호 설치헬프 임의로 넣어줌
             const aPartnerList = [
-              { Partner: "BP01", Partxt: "A사" },
-              { Partner: "BP02", Partxt: "B사" },
-              { Partner: "BP03", Partxt: "C사" }
+              //신선 완제품 BP번호호
+              { Partner: "BP0009", Partxt: "A사" },
+              { Partner: "BP0010", Partxt: "B사" },
+              { Partner: "BP0011", Partxt: "C사" },
+              { Partner: "BP0012", Partxt: "C사" },
+              { Partner: "BP0013", Partxt: "C사" },
+              { Partner: "BP0014", Partxt: "C사" },
+              { Partner: "BP0015", Partxt: "C사" },
+
+              //가공 완제품 BP번호
+              { Partner: "BP0016", Partxt: "C사" },
+              { Partner: "BP0017", Partxt: "C사" },
+              { Partner: "BP0018", Partxt: "C사" },
+              { Partner: "BP0019", Partxt: "C사" },
+              { Partner: "BP0020", Partxt: "C사" },
+
+              //비건 완제품 BP번호
+              { Partner: "BP0021", Partxt: "C사" },
+              { Partner: "BP0022", Partxt: "C사" },
+
             ];
 
-            const oJsonModel = new sap.ui.model.json.JSONModel({ MaterialSet: aMaterialList,
-                                                                 PartnerSet : aPartnerList });
+            // const oJsonModel = new sap.ui.model.json.JSONModel({ MaterialSet: aMaterialList,
+            //                                                      PartnerSet : aPartnerList });
              
-            this.getView().setModel(oJsonModel, "local");
+            // this.getView().setModel(oJsonModel, "local");
 
+            const oJsonModel = new sap.ui.model.json.JSONModel({
+                  MaterialSet: aMaterialList,
+                  PartnerSet: aPartnerList,
+                  FilteredPartnerSet: aPartnerList // 최초엔 전체 표시
+                });
+                this.getView().setModel(oJsonModel, "local");
+
+            this._materialBpMap = {
+                    "M0001": ["BP0009", "BP0010", "BP0015"],
+                    "M0004": ["BP0009", "BP0011", "BP0013"],
+                    "M0005": ["BP0011", "BP0014"],
+
+                    "M0002": ["BP0012", "BP0016", "BP0019"],
+                    "M0003": ["BP0012", "BP0016", "BP0020"],
+                    "M0006": ["BP0012", "BP0017"],
+                    "M0007": ["BP0012", "BP0018"],
+                    "M0008": ["BP0012", "BP0018"],
+
+                    "M0003": ["BP0012", "BP0016", "BP0020"],
+                    "M0009": ["BP0022"]
+                    
+          };
+            //요청일자 오늘 날짜 고정
+            const oToday = new Date();
+            const sToday = oToday.toISOString().slice(0, 10); // "YYYY-MM-DD" 형식
+
+            this.byId("Audat").setValue(sToday); // DatePicker에 값 세팅
           },
           onRefresh(){ //초기화
             this.getView().byId('VbelnSo').setValue('');
@@ -59,15 +112,8 @@ sap.ui.define([
             this.getView().byId('Scost').setValue('');
             this.getView().byId('Waers').setValue(''); 
         },
-        // onItem(){ //Route 설정
-        //     let oRouter = this.getOwnerComponent().getRouter();
-        //     let oModel = this.getView().getModel();
 
-        //     oModel.refresh(true);
-
-        //     oRouter.navTo("RouteitemSo")
-        // },
-        onItem: function() {
+        onItem: function() { //Route 설정
           let oRouter = this.getOwnerComponent().getRouter();
           let oTable = this.getView().byId("DocuTable");
           let aSelectedIndices = oTable.getSelectedIndices();  // 첫 번째 선택된 Row
@@ -86,7 +132,7 @@ sap.ui.define([
       },
         onSearch: function () {
             const vVbelnSo = this.getView().byId('VbelnSo').getValue().toUpperCase();
-            const vPartner = this.getView().byId('Partner2').getValue().toUpperCase();
+            // const vPartner = this.getView().byId('Partner2').getValue().toUpperCase();
             // const vCusno = this.getView().byId('Cusno').getValue();
 
             let otable   = this.getView().byId('DocuTable'), //테이블 받아오기
@@ -94,12 +140,13 @@ sap.ui.define([
                 oFilter  = null, //검색어를 구성하는 객체
                 aFilter  = []; //검색어를 받을 배열
 
-              // if (!vVbelnSo && !vPartner) {
-              //   oBinding.filter([]); //  필터 없이 전체 데이터 보여줌
-              //   return;
-              // }
-
               if (!vVbelnSo && !vPartner) {
+                oBinding.filter([]);            // 필터 제거
+                oBinding.refresh(true);         // 서버에서 전체 데이터 다시 요청
+                return;
+            }
+
+            if (!vVbelnSo) {
                 oBinding.filter([]);            // 필터 제거
                 oBinding.refresh(true);         // 서버에서 전체 데이터 다시 요청
                 return;
@@ -117,30 +164,25 @@ sap.ui.define([
               oFilter = null;
             }
 
-            if(vPartner!= ''){
-              oFilter = new Filter({
-                  path: 'Partner' ,
-                  operator: FilterOperator.Contains,
-                  value1: vPartner
-              });
+            // if(vPartner!= ''){
+            //   oFilter = new Filter({
+            //       path: 'Partner' ,
+            //       operator: FilterOperator.Contains,
+            //       value1: vPartner
+            //   });
 
-              aFilter.push(oFilter);
-              oFilter = null;
-            }
-
-            aFilter.push(new Filter({
-              path: 'Cusno',
-              operator: FilterOperator.EQ,
-              value1: 'C10001'
-            }));
+            //   aFilter.push(oFilter);
+            //   oFilter = null;
+            // }
           
             oBinding.filter(aFilter);
             
              // 확인 로그
                 // console.log("Filtered row count (may be async):", oBinding.getLength());
-                // console.log("입력된 판매오더번호:", aFilter);
+                // console.log("입력된 BP번호호:", aFilter);
           },
-       
+
+
         onCreate: function () {
             const oView = this.getView();
             const oModel = oView.getModel();
@@ -149,6 +191,7 @@ sap.ui.define([
             // 값 추출
             const sMatnr = oView.byId("Matnr").getValue();
             const sPartner = oView.byId("Partner").getValue();
+            // const sCusno = oView.byId("Cusno").getValue(); //추가 06
             const sPequan = oView.byId("Pequan").getValue();
             const iPequan = parseInt(sPequan, 10);
             const sOrtype = oView.byId("Ortype").getValue();
@@ -167,32 +210,73 @@ sap.ui.define([
               
             const oPayload = {
                 Cusno: "C10001",
+                // Cusno: sCusno, //추가 06
                 Partner: sPartner,
                 Ortype: sOrtype,
-                Audat: sAudat, // ✅ 형식: 2025-04-24
+                Audat: sAudat, //  형식: 2025-04-24
                 SO_ORDER_ITEMSet: [
                   {
                     Matnr: sMatnr,
                     Cusno: "C10001",
+                    // Cusno: sCusno,
                     Partner: sPartner,
-                    Pequan: iPequan.toString() // ✅ Decimal은 문자열로
+                    Pequan: iPequan.toString() //  Decimal은 문자열로
                   }
                 ]
               };
 
           oModel.create("/SO_ORDERSet", oPayload, {
-            success: function () {
-              MessageToast.show("판매오더 생성 성공!");
+            // success: function () {
+            //   MessageToast.show("판매오더 생성 성공!");
           
-              // 👉 테이블 자동 새로고침 (테이블 ID에 맞춰 수정)
-              const oTable = oView.byId("soOrderTable");
-              if (oTable) {
-                const oBinding = oTable.getBinding("items");
-                if (oBinding) {
-                  oBinding.refresh();
+            //   // 👉 테이블 자동 새로고침 (테이블 ID에 맞춰 수정)
+            //   const oTable = oView.byId("soOrderTable");
+            //   if (oTable) {
+            //     const oBinding = oTable.getBinding("items");
+            //     if (oBinding) {
+            //       oBinding.refresh();
+            //     }
+            //   }
+
+            success: function (oData) {
+              MessageToast.show("판매오더 생성 성공!");
+
+              const sNewOrder = oData.VbelnSo;
+              this._sLastCreatedOrder = sNewOrder;
+
+              const oTable = this.byId("DocuTable");
+              const oBinding = oTable.getBinding("rows");
+              if (oBinding) {
+                oBinding.refresh();
+
+                // 스크롤 맨 위로
+                oTable.setFirstVisibleRow(0);
+
+                // 렌더링 이후 강조
+                  setTimeout(() => {
+                    const aRows = oTable.getRows();
+                    aRows.forEach(oRow => {
+                      const oCtx = oRow.getBindingContext();
+                      if (oCtx && oCtx.getProperty("VbelnSo") === sNewOrder) {
+                        const oDomRef = oRow.getDomRef();
+                        if (oDomRef) {
+                          oDomRef.classList.add("highlightRow");
+
+                          // 일정 시간 후 생성 css 클래스 제거
+                          setTimeout(() => {
+                            oDomRef.classList.remove("highlightRow");
+                          }, 2000); // 2초 후 제거
+                        }
+                      }
+                    });
+                  }, 200);
                 }
-              }
-            },
+
+              oView.byId("Matnr").setValue("");
+              oView.byId("Partner").setValue("");
+              oView.byId("Pequan").setValue("");
+              oView.byId("MatDesc").setText("");
+            }.bind(this),
           
             error: function (oError) {
               MessageToast.show("생성 실패!");
@@ -232,7 +316,32 @@ sap.ui.define([
               oBinding.filter([]);       // 전체 데이터 보여주기
               oBinding.refresh(true);    // 서버에서 다시 가져오기
           }
-      }
+      },
+
+        onMatnrChanged: function (oEvent) {
+            const sInput = oEvent.getParameter("value").trim().toUpperCase();
+            const oView = this.getView();
+            const oLocalModel = oView.getModel("local");
+            const aMaterials = oLocalModel.getProperty("/MaterialSet");
+
+            const oMatch = aMaterials.find(item => item.Matnr === sInput);
+            const sDesc = oMatch ? oMatch.Maktx : "";
+
+            this.byId("MatDesc").setText(sDesc); // 자재명 표시
+
+            // 자재번호에 따라 Partner 필터링
+            const aFullPartnerList = oLocalModel.getProperty("/PartnerSet") || [];
+            const aValidBpKeys = this._materialBpMap?.[sInput] || [];
+
+            const aFilteredPartners = aFullPartnerList.filter(bp =>
+                aValidBpKeys.includes(bp.Partner)
+            );
+
+            oLocalModel.setProperty("/FilteredPartnerSet", aFilteredPartners);
+
+            // console.log("필터링된 BP 목록:", aFilteredPartners);
+            // console.log("현재 자재번호:", sInput);
+        }
           
     });
 });

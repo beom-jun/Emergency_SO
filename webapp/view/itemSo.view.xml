@@ -90,7 +90,8 @@
                             </t:Column>
 
                             <t:Column width="12.5rem">
-                                <Label text="{/#SO_ORDER_ITEMSet/Waers/@sap:label}" />
+                                <!-- <Label text="{/#SO_ORDER_ITEMSet/Waers/@sap:label}" /> -->
+                                <Label text="통화키" />
                                 <t:template>
                                     <Text text="{Waers}" wrapping="false" />
                                 </t:template>
